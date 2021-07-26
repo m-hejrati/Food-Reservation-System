@@ -4,6 +4,10 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from web.serializers import MenuSerializer, OrderSerializer, UserSerializer
 
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import AllowAny
+from .serializers import MyTokenObtainPairSerializer
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -20,6 +24,7 @@ class MenuViewSet(viewsets.ModelViewSet):
     """
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -28,3 +33,9 @@ class OrderViewSet(viewsets.ModelViewSet):
     """
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class MyObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer
