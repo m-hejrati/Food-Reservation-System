@@ -19,14 +19,16 @@ from rest_framework import routers
 from web import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
 
 
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'menus', views.MenuViewSet)
-router.register(r'orders', views.OrderViewSet)
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'users/?$', views.UserViewSet)
+router.register(r'menus/?$', views.MenuViewSet)
+router.register(r'orders/?$', views.OrderViewSet)
 
 urlpatterns = [
+    path('admin', RedirectView.as_view(url = '/admin/')),
     path('admin/', admin.site.urls),
     path('auth/', include('auth.urls')),
     path('', include(router.urls)),
