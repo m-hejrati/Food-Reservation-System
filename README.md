@@ -30,6 +30,15 @@ http://localhost:8000/auth/register/
 http://localhost:8000/auth/login/
 ```
 
+* If you forget your password, you can reset it by sending an email to the following address:
+```
+http://localhost:8000/auth/password_reset/
+```
+then enter the received token and a new password:
+```
+http://localhost:8000/auth/password_reset/confirm
+```
+
 * also its possible to see list of menus and orders by sending your token:
 ```
 http://localhost:8000/auth/menus/
