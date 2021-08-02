@@ -36,7 +36,7 @@ http://localhost:8000/auth/password_reset/
 ```
 then enter the received token and a new password:
 ```
-http://localhost:8000/auth/password_reset/confirm
+http://localhost:8000/auth/password_reset/confirm/
 ```
 
 * also its possible to see list of menus and orders by sending your token:
