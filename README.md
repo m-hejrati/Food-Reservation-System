@@ -56,7 +56,8 @@ http://localhost:8000/menus/id
 http://localhost:8000/menus/id
 ```
 
-* Show list of all menus by sending a get request:
+* Show list of all menus or orders by sending a get request:
 ```
 http://localhost:8000/menus
+http://localhost:8000/orders
 ```

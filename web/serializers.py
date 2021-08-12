@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models import fields
 from .models import Menu, Order
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -17,6 +18,8 @@ class MenuSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer()
+    menu = MenuSerializer()
     class Meta:
         model = Order
         fields = ['id', 'user', 'menu']
