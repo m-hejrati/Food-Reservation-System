@@ -24,8 +24,8 @@ from django.views.generic.base import RedirectView
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'users/?$', views.UserViewSet)
-router.register(r'menus', views.MenuViewSet)
-router.register(r'orders', views.OrderViewSet)
+router.register(r'menus/?', views.MenuViewSet)
+router.register(r'orders/?', views.OrderViewSet)
 
 urlpatterns = [
     path('admin', RedirectView.as_view(url = '/admin/')),
