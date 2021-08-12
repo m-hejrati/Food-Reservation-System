@@ -7,19 +7,19 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['id', 'username', 'email']
 
 
 class MenuSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Menu
-        fields = ['food_name', 'date', 'amount']
+        fields = ['id', 'food_name', 'date', 'amount']
 
 
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Order
-        fields = ['user', 'menu']
+        fields = ['id', 'user', 'menu']
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

@@ -39,8 +39,24 @@ then enter the received token and a new password:
 http://localhost:8000/auth/password_reset/confirm/
 ```
 
-* also its possible to see list of menus and orders by sending your token:
+After logging, you can use the following APIs:
+
+* Add a new menu with sending a post request consist of food_name, date and amount:
 ```
-http://localhost:8000/auth/menus/
-http://localhost:8000/auth/orders/
+http://localhost:8000/menus
+```
+
+* Remove a menu with sending a delete request and id:
+```
+http://localhost:8000/menus/id
+```
+
+* Edit a menu with sending a put request and id, and also food_name, date and amount as body:
+```
+http://localhost:8000/menus/id
+```
+
+* Show list of all menus by sending a get request:
+```
+http://localhost:8000/menus
 ```
