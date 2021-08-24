@@ -11,18 +11,23 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'username', 'email']
 
 
-class MenuSerializer(serializers.HyperlinkedModelSerializer):
+class MenuSerializer(serializers.ModelSerializer):
+    users = serializers.SerializerMethodField()
+
     class Meta:
         model = Menu
-        fields = ['id', 'food_name', 'date', 'amount']
+        fields = ['id', 'food_name', 'date', 'amount', 'users']
+
+    def get_users(self, obj):
+        users = User.objects.filter(pk__in=obj.order_set.all().values('user'))
+        return UserSerializer(users, many=True).data
 
 
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer()
     menu = MenuSerializer()
     class Meta:
         model = Order
-        fields = ['id', 'user', 'menu']
+        fields = ['id', 'menu']
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
