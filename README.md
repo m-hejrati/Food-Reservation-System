@@ -18,14 +18,14 @@ python manage.py runserver 8000
 
 ### Test APIs
 
-* To register new user, send a post request with username, password, password2, email, first_name and last_name to below address: 
+* To register new user, send a POST request with username, password, password2, email, first_name and last_name to below address: 
 (notice that username and email must be unique.)
 
 ```
 http://localhost:8000/auth/register/
 ```
 
-* To login send a post request with username and password:
+* To login send a POST request with username and password:
 ```
 http://localhost:8000/auth/login/
 ```
@@ -39,25 +39,24 @@ then enter the received token and a new password:
 http://localhost:8000/auth/password_reset/confirm/
 ```
 
-After logging, you can use the following APIs:
+After logging, admin can use the following APIs:
 
-* Add a new menu with sending a post request consist of food_name, date and amount:
+* Add a new menu with sending a POST request consist of food_name, date and amount:
 ```
 http://localhost:8000/menus
 ```
 
-* Remove a menu with sending a delete request and id:
+* Remove a menu with sending a DELETE request and id:
 ```
 http://localhost:8000/menus/id
 ```
 
-* Edit a menu with sending a put request and id, and also food_name, date and amount as body:
+* Edit a menu with sending a PUT request and id, and also food_name, date and amount as body:
 ```
 http://localhost:8000/menus/id
 ```
 
-* Show list of all menus or orders by sending a get request:
+* Show list of all menus and user that reserved them by sending a GET request:
 ```
 http://localhost:8000/menus
-http://localhost:8000/orders
 ```

@@ -36,8 +36,6 @@ class OrderViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows orders to be viewed or edited.
     """
-    # queryset = Order.objects.all().distinct('menu')
-    # queryset = Order.objects.values('menu').distinct()
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAdminUser]
