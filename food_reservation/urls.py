@@ -33,7 +33,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('auth.urls')),
     path('', include(router.urls)),
-    url(r'^orders/add/?$', views.reserve)
+    url(r'^orders/add/?$', views.reserve),
+    url(r'^orders/delete/?$', views.remove)
+
 ]
 
 if settings.DEBUG:
