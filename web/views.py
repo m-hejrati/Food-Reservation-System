@@ -29,9 +29,25 @@ class MenuViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows menus to be viewed or edited.
     """
-    queryset = Menu.objects.all()
+    # queryset = Menu.objects.all()
     serializer_class = MenuSerializer
     permission_classes = [permissions.IsAdminUser]
+    
+    def get_queryset(self):
+
+        date_from = self.request.GET.get('date_from', None)
+        date_to = self.request.GET.get('date_to', None)
+
+        # TODO: debug reading query body
+
+        if date_from is not None and date_to is not None:
+            queryset = Menu.objects.filter(date__range=[date_from, date_to])
+
+        else:
+            queryset = Menu.objects.all()
+            # queryset = Menu.objects.filter(date__range=["2021-07-01", "2021-07-28"])
+
+        return queryset
 
 
 class OrderViewSet(viewsets.ModelViewSet):

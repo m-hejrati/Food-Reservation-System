@@ -25,7 +25,7 @@ from django.views.generic.base import RedirectView
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'users/?$', views.UserViewSet)
-router.register(r'menus/?', views.MenuViewSet)
+router.register(r'menus/?', views.MenuViewSet, basename='menus')
 router.register(r'orders/?', views.OrderViewSet)
 
 urlpatterns = [
@@ -35,7 +35,6 @@ urlpatterns = [
     path('', include(router.urls)),
     url(r'^orders/add/?$', views.reserve),
     url(r'^orders/delete/?$', views.remove)
-
 ]
 
 if settings.DEBUG:
