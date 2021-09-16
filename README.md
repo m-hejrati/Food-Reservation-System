@@ -60,3 +60,13 @@ http://localhost:8000/menus/id
 ```
 http://localhost:8000/menus
 ```
+
+* Reserve an order by sending POST request and your user_id, menu_id as body (Admin can order for other users):
+```
+http://localhost:8000/orders/add/
+```
+
+* Remove an order by sending POST request and your user_id, menu_id as body (Admin can order for other users):
+```
+http://localhost:8000/orders/delete/
+```
