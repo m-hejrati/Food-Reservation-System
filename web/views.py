@@ -4,8 +4,10 @@ from rest_framework import viewsets, permissions
 from web.serializers import MenuSerializer, OrderSerializer, UserSerializer
 
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.backends import TokenBackend
 from rest_framework.permissions import AllowAny, IsAdminUser
 from .serializers import MyTokenObtainPairSerializer
+from django.core.exceptions import ValidationError
 
 from json import JSONEncoder
 
@@ -13,6 +15,8 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -58,13 +62,20 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAdminUser]
 
+import json 
 
 @csrf_exempt
 @require_POST
 def reserve(request):
+    entered_menu_id = json.loads(request.body)['menu_id']
 
-    entered_menu_id = request.POST['menu_id']
-    entered_user_id = request.POST['user_id']
+    token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+    try:
+        valid_data = TokenBackend(algorithm='HS256').decode(token,verify=False)
+        user = User.objects.get(id=valid_data['user_id'])
+        request.user = user
+    except ValidationError as v:
+        print("validation error", v)
 
     entered_user = User.objects.get(id=entered_user_id)
     entered_menu = Menu.objects.get(id=entered_menu_id)
