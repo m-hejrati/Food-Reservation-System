@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth.models import User
 from .models import Menu, Order
 from rest_framework import viewsets, permissions
@@ -15,8 +16,6 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
-
 
 
 
@@ -35,7 +34,7 @@ class MenuViewSet(viewsets.ModelViewSet):
     """
     # queryset = Menu.objects.all()
     serializer_class = MenuSerializer
-    permission_classes = [permissions.IsAdminUser]
+    # permission_classes = [permissions.IsAdminUser]
     
     def get_queryset(self):
 
@@ -67,7 +66,9 @@ import json
 @csrf_exempt
 @require_POST
 def reserve(request):
-    entered_menu_id = json.loads(request.body)['menu_id']
+
+    entered_menu_id = request.POST['menu_id']
+    entered_user_id = request.POST['user_id']
 
     token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
     try:
@@ -81,11 +82,11 @@ def reserve(request):
     entered_menu = Menu.objects.get(id=entered_menu_id)
 
     real_user = request.user
-    # TODO: debug AnonymousUser  
+    isAdmin = request.user.is_staff
 
     if request.user.is_authenticated:
   
-        if (real_user == IsAdminUser) or (real_user.id == entered_user_id):
+        if (isAdmin == True) or (str(real_user.id) == entered_user_id):
             
             Order.objects.create(user=entered_user, menu=entered_menu)
             
@@ -114,15 +115,23 @@ def remove(request):
     entered_menu_id = request.POST['menu_id']
     entered_user_id = request.POST['user_id']
 
+    token = request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+    try:
+        valid_data = TokenBackend(algorithm='HS256').decode(token,verify=False)
+        user = User.objects.get(id=valid_data['user_id'])
+        request.user = user
+    except ValidationError as v:
+        print("validation error", v)
+
     entered_user = User.objects.get(id=entered_user_id)
     entered_menu = Menu.objects.get(id=entered_menu_id)
 
     real_user = request.user
-    # TODO: debug AnonymousUser  
+    isAdmin = request.user.is_staff
 
     if request.user.is_authenticated:
   
-        if (real_user == IsAdminUser) or (real_user.id == entered_user_id):
+        if (isAdmin == True) or (str(real_user.id) == entered_user_id):
             
             entered_order = Order.objects.get(user=entered_user, menu=entered_menu)
             entered_order.delete()
